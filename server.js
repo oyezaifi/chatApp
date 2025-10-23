@@ -11,13 +11,8 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Get API key from environment variable
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-
-console.log('Environment check:');
-console.log('GEMINI_API_KEY from env:', process.env.GEMINI_API_KEY ? 'Found' : 'Not found');
-console.log('Using API key:', GEMINI_API_KEY ? 'Yes' : 'No');
-console.log('API Key (first 10 chars):', GEMINI_API_KEY ? GEMINI_API_KEY.substring(0, 10) + '...' : 'None');
+// Simple echo chat - no API key needed
+console.log('Running in simple echo mode - no API key required');
 
 // Middleware
 app.use(cors());
@@ -70,7 +65,7 @@ const appRouter = router({
           throw new Error(`Failed to save user message: ${userError.message}`);
         }
 
-        // Generate AI response using Gemini
+        // Generate AI response (simple echo)
         const aiResponse = await generateAIResponse(input.prompt, input.modelTag);
 
         // Save AI response
@@ -122,79 +117,10 @@ const appRouter = router({
   }),
 });
 
-// AI response generator using Gemini API
+// Simple AI response generator (echo back user input)
 async function generateAIResponse(prompt, modelTag) {
-  try {
-    // Map model tags to actual Gemini model names (using available models)
-    const modelName = modelTag === 'gemini-1.5-flash-latest' ? 'gemini-2.5-flash' : 
-                     modelTag === 'gemini-1.5-pro-latest' ? 'gemini-2.5-pro' :
-                     modelTag === 'gemini-pro-latest' ? 'gemini-pro-latest' : 
-                     'gemini-2.5-flash';
-    
-    console.log(`Calling Gemini API with model: ${modelName}`);
-    
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${GEMINI_API_KEY}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          contents: [{
-            parts: [{
-              text: prompt
-            }]
-          }],
-          generationConfig: {
-            temperature: 0.7,
-            topK: 40,
-            topP: 0.95,
-            maxOutputTokens: 2048,
-          },
-          safetySettings: [
-            {
-              category: "HARM_CATEGORY_HARASSMENT",
-              threshold: "BLOCK_MEDIUM_AND_ABOVE"
-            },
-            {
-              category: "HARM_CATEGORY_HATE_SPEECH",
-              threshold: "BLOCK_MEDIUM_AND_ABOVE"
-            },
-            {
-              category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-              threshold: "BLOCK_MEDIUM_AND_ABOVE"
-            },
-            {
-              category: "HARM_CATEGORY_DANGEROUS_CONTENT",
-              threshold: "BLOCK_MEDIUM_AND_ABOVE"
-            }
-          ]
-        })
-      }
-    );
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Gemini API error:', response.status, errorText);
-      throw new Error(`Gemini API error: ${response.status} - ${errorText}`);
-    }
-
-    const result = await response.json();
-    
-    // Extract the text from the response
-    const aiResponse = result.candidates?.[0]?.content?.parts?.[0]?.text;
-    
-    if (!aiResponse) {
-      console.error('No response from Gemini:', JSON.stringify(result));
-      return 'Sorry, I could not generate a response. Please try again.';
-    }
-    
-    return aiResponse;
-  } catch (error) {
-    console.error('Error generating AI response:', error);
-    return `Error: ${error.message}. Please check your API key and try again.`;
-  }
+  // Simple echo response - just return what the user said
+  return `You said: ${prompt}`;
 }
 
 // tRPC endpoint
@@ -205,5 +131,5 @@ app.use('/api/trpc', createExpressMiddleware({
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-  console.log(`Gemini API Key configured: ${GEMINI_API_KEY ? 'Yes' : 'No'}`);
+  console.log('Simple echo mode enabled - AI will echo back your messages');
 });
