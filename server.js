@@ -3,13 +3,21 @@ import cors from 'cors';
 import { createExpressMiddleware } from '@trpc/server/adapters/express';
 import { supabase } from './src/lib/supabase.js';
 import { z } from 'zod';
-import 'dotenv/config';
+import dotenv from 'dotenv';
+
+// Load environment variables
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Get API key from environment variable
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+
+console.log('Environment check:');
+console.log('GEMINI_API_KEY from env:', process.env.GEMINI_API_KEY ? 'Found' : 'Not found');
+console.log('Using API key:', GEMINI_API_KEY ? 'Yes' : 'No');
+console.log('API Key (first 10 chars):', GEMINI_API_KEY ? GEMINI_API_KEY.substring(0, 10) + '...' : 'None');
 
 // Middleware
 app.use(cors());
@@ -117,11 +125,11 @@ const appRouter = router({
 // AI response generator using Gemini API
 async function generateAIResponse(prompt, modelTag) {
   try {
-    // Map model tags to actual Gemini model names
-    const modelName = modelTag === 'gemini-1.5-flash-latest' ? 'gemini-1.5-flash-latest' : 
-                     modelTag === 'gemini-1.5-pro-latest' ? 'gemini-1.5-pro-latest' :
+    // Map model tags to actual Gemini model names (using available models)
+    const modelName = modelTag === 'gemini-1.5-flash-latest' ? 'gemini-2.5-flash' : 
+                     modelTag === 'gemini-1.5-pro-latest' ? 'gemini-2.5-pro' :
                      modelTag === 'gemini-pro-latest' ? 'gemini-pro-latest' : 
-                     'gemini-1.5-pro-latest';
+                     'gemini-2.5-flash';
     
     console.log(`Calling Gemini API with model: ${modelName}`);
     

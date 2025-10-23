@@ -33,11 +33,11 @@ export function ModelSelector({ selectedModel, onModelSelect }: ModelSelectorPro
     };
   }, [isOpen]);
 
-  // AI Models available (using Gemini API for all)
+  // AI Models available (using actual available Gemini models)
   const models = [
-    { id: '1', tag: 'gemini-1.5-pro-latest', name: 'Gemini 1.5 Pro', description: 'Latest Gemini 1.5 Pro model - Most capable' },
-    { id: '2', tag: 'gemini-1.5-flash-latest', name: 'Gemini 1.5 Flash', description: 'Fast Gemini 1.5 Flash model - Quick responses' },
-    { id: '3', tag: 'gemini-pro-latest', name: 'Gemini Pro', description: 'Standard Gemini Pro model - Balanced performance' }
+    { id: '1', tag: 'gemini-1.5-flash-latest', name: 'Gemini 2.5 Flash', description: 'Latest Gemini 2.5 Flash model - Fast and capable' },
+    { id: '2', tag: 'gemini-1.5-pro-latest', name: 'Gemini 2.5 Pro', description: 'Latest Gemini 2.5 Pro model - Most capable' },
+    { id: '3', tag: 'gemini-pro-latest', name: 'Gemini Pro Latest', description: 'Standard Gemini Pro model - Balanced performance' }
   ];
   const isLoading = false;
 
