@@ -118,10 +118,10 @@ const appRouter = router({
 async function generateAIResponse(prompt, modelTag) {
   try {
     // Map model tags to actual Gemini model names
-    const modelName = modelTag === 'gemini-1.5-flash' ? 'gemini-1.5-flash' : 
-                     modelTag === 'gemini-1.5-pro' ? 'gemini-1.5-pro' :
-                     modelTag === 'gemini-pro' ? 'gemini-pro' : 
-                     'gemini-1.5-pro';
+    const modelName = modelTag === 'gemini-1.5-flash-latest' ? 'gemini-1.5-flash-latest' : 
+                     modelTag === 'gemini-1.5-pro-latest' ? 'gemini-1.5-pro-latest' :
+                     modelTag === 'gemini-pro-latest' ? 'gemini-pro-latest' : 
+                     'gemini-1.5-pro-latest';
     
     console.log(`Calling Gemini API with model: ${modelName}`);
     
