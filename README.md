@@ -68,13 +68,7 @@ src/
 3. **Start chatting** with your chosen AI
 4. **Toggle dark mode** for your preference
 
-## 🤝 Contributing
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
 
 ## 📄 License
 
@@ -82,4 +76,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-Made with ❤️ using React, Supabase, and Tailwind CSS
+Made by Huzaifa using React, Supabase, and Tailwind CSS
